@@ -31,14 +31,14 @@ def g():
     model = mr.get_model("wine_model", version=1)
     model_dir = model.download()
     model = joblib.load(model_dir + "/wine_model.pkl")
-    '''
+    
     feature_view = fs.get_feature_view(name="wine_updated3", version=1)
     batch_data = feature_view.get_batch_data()
     
     y_pred = model.predict(batch_data)
     offset = 1
     wine = y_pred[y_pred.size-offset]
-    wine_url = "https://raw.githubusercontent.com/featurestoreorg/serverless-ml-course/main/src/01-module/assets/" + str(wine) + ".png"
+    wine_url = "https://raw.githubusercontent.com/oakwill/ID2223-Scalable-Machine-Learning/Lab 1/wine/wine_pictures/" + str(wine) + ".png"
     print("Wine quality predicted: " + str(wine))
     img = Image.open(requests.get(wine_url, stream=True).raw)            
     img.save("./latest_wine.png")
@@ -48,12 +48,12 @@ def g():
     wine_fg = fs.get_feature_group(name="wine_updated3", version=1)
     df = wine_fg.read() 
     label = df.iloc[-offset]["quality"]
-    label_url = "https://raw.githubusercontent.com/featurestoreorg/serverless-ml-course/main/src/01-module/assets/" + label + ".png"
+    label_url = "https://raw.githubusercontent.com/oakwill/ID2223-Scalable-Machine-Learning/Lab 1/wine/wine_pictures/" + label + ".png"
     print("Wine actual: " + label)
     img = Image.open(requests.get(label_url, stream=True).raw)            
     img.save("./actual_wine.png")
     dataset_api.upload("./actual_wine.png", "Resources/images", overwrite=True)
-    '''
+    
     monitor_fg = fs.get_or_create_feature_group(name="wine_predictions",
                                                 version=1,
                                                 primary_key=["datetime"],
@@ -110,4 +110,3 @@ if __name__ == "__main__":
     else:
         with stub.run():
             f()
-
