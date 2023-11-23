@@ -27,7 +27,7 @@ def g():
     fs = project.get_feature_store()
     
     mr = project.get_model_registry()
-    model = mr.get_model("iris_model", version=1)
+    model = mr.get_model("iris_model", version=3)
     model_dir = model.download()
     model = joblib.load(model_dir + "/iris_model.pkl")
     
@@ -36,7 +36,7 @@ def g():
     
     y_pred = model.predict(batch_data)
     #print(y_pred)
-    offset = 1
+    offset = 3
     flower = y_pred[y_pred.size-offset]
     flower_url = "https://raw.githubusercontent.com/featurestoreorg/serverless-ml-course/main/src/01-module/assets/" + flower + ".png"
     print("Flower predicted: " + flower)
@@ -106,4 +106,3 @@ if __name__ == "__main__":
     else:
         with stub.run():
             f()
-
